@@ -35,9 +35,15 @@ jobs:
           pip install --upgrade pip
           pip install buildozer cython
 
-      - name: Accept Android SDK licenses
+      - name: Setup Android SDK
         run: |
-          yes | sdkmanager --licenses || true
+          mkdir -p ~/.buildozer/android/platform/android-sdk
+          cd ~/.buildozer/android/platform/android-sdk
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          unzip -q commandlinetools-linux-11076708_latest.zip
+          mv cmdline-tools latest
+          echo "y" | ~/.buildozer/android/platform/android-sdk/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
+          ~/.buildozer/android/platform/android-sdk/latest/bin/sdkmanager "platform-tools" "build-tools;37.0.0" "platforms;android-33" || true
 
       - name: Build APK with Buildozer
         run: |
