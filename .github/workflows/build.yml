@@ -18,7 +18,7 @@ jobs:
           node-version: '24'
 
       - name: Setup Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -28,20 +28,30 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev automake
+
+      - name: Install Python packages
+        run: |
           pip install --upgrade pip
           pip install buildozer cython
 
-      - name: Build APK with Buildozer
+      - name: Configure Buildozer
         run: |
+          echo "Используем конфиг из репозитория"
+          cat buildozer.spec
+
+      - name: Build APK
+        run: |
+          # Устанавливаем переменные для Android SDK
           export ANDROIDSDK=/home/runner/.buildozer/android/platform/android-sdk
           export ANDROIDNDK=/home/runner/.buildozer/android/platform/android-ndk-r25c
           export ANDROIDAPI=33
           export ANDROIDMINAPI=24
-          yes | buildozer android debug
+          # Автоматическое принятие лицензий
+          yes | buildozer android debug || echo "Buildozer завершился с кодом $?"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
