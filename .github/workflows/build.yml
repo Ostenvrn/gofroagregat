@@ -9,10 +9,14 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/kivy/buildozer:1.0.0
+      image: kivy/buildozer:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Install missing android package
+        run: |
+          pip install android
 
       - name: Build APK
         run: |
