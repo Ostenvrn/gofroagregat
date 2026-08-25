@@ -33,7 +33,7 @@ jobs:
           export ANDROIDAPI=33
           export ANDROIDMINAPI=24
           export PATH=$PATH:/root/.buildozer/android/platform/apache-ant-1.9.4/bin
-          python3.9 -m buildozer --force-root android debug
+          echo "y" | python3.9 -m buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
