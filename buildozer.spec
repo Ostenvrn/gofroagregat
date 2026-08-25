@@ -8,7 +8,9 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 
 version = 1.0.0
 
-requirements = python3==3.10.14,kivy==2.3.1,cython==0.29.33,legacy-cgi
+requirements = python3,kivy==2.3.1,cython==0.29.33,legacy-cgi
+hostpython3 = python3
+
 orientation = portrait
 fullscreen = 1
 
