@@ -20,8 +20,10 @@ android.minapi = 24
 android.graphics = yes
 android.maxsdk = 33
 android.add_src =
-android.ignore_requirements = android
 
 [buildozer]
 log_level = 2
 warn_on_root = 1
+
+[android]
+ignore_packages = android
