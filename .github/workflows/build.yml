@@ -35,9 +35,9 @@ jobs:
           mv cmdline-tools/cmdline-tools cmdline-tools/latest
           yes | /root/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
           /root/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "build-tools;37.0.0" "platforms;android-33"
-          # Копируем build-tools в папку, где их ищет Buildozer
-          mkdir -p /github/home/.buildozer/android/platform/android-sdk
-          cp -r /root/.buildozer/android/platform/android-sdk/build-tools /github/home/.buildozer/android/platform/android-sdk/ 2>/dev/null || true
+          # Копируем SDK в папку, где его ищет Buildozer
+          mkdir -p /github/home/.buildozer/android/platform
+          cp -r /root/.buildozer/android/platform/android-sdk /github/home/.buildozer/android/platform/
 
       - name: Build APK
         run: |
