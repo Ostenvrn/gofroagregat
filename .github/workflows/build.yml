@@ -16,6 +16,7 @@ jobs:
 
       - name: Build APK
         run: |
+          export P4A_IGNORE_PACKAGES=android
           yes | buildozer android debug
 
       - name: Upload APK
