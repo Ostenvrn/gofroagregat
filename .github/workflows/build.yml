@@ -23,8 +23,8 @@ jobs:
 
       - name: Install Python packages
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install buildozer cython legacy-cgi
+          python3.9 -m pip install --upgrade pip
+          python3.9 -m pip install buildozer cython legacy-cgi
 
       - name: Build APK
         run: |
@@ -33,7 +33,7 @@ jobs:
           export ANDROIDAPI=33
           export ANDROIDMINAPI=24
           export PATH=$PATH:/root/.buildozer/android/platform/apache-ant-1.9.4/bin
-          yes | buildozer android debug || true
+          python3.9 -m buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
