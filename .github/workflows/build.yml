@@ -8,50 +8,31 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    container:
+      image: ubuntu:22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
-          sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev automake
+          apt update
+          apt install -y git zip unzip openjdk-17-jdk python3-pip python3.10 python3.10-dev python3.10-venv autoconf libtool pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev automake
+          update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
 
       - name: Install Python packages
         run: |
-          pip install --upgrade pip
-          pip install buildozer cython
-
-      - name: Configure Buildozer
-        run: |
-          echo "Используем конфиг из репозитория"
-          cat buildozer.spec
+          python3 -m pip install --upgrade pip
+          python3 -m pip install buildozer cython
 
       - name: Build APK
         run: |
-          # Устанавливаем переменные для Android SDK
-          export ANDROIDSDK=/home/runner/.buildozer/android/platform/android-sdk
-          export ANDROIDNDK=/home/runner/.buildozer/android/platform/android-ndk-r25c
+          export ANDROIDSDK=/root/.buildozer/android/platform/android-sdk
+          export ANDROIDNDK=/root/.buildozer/android/platform/android-ndk-r25c
           export ANDROIDAPI=33
           export ANDROIDMINAPI=24
-          # Автоматическое принятие лицензий
-          yes | buildozer android debug || echo "Buildozer завершился с кодом $?"
+          export PATH=$PATH:/root/.buildozer/android/platform/apache-ant-1.9.4/bin
+          yes | buildozer android debug || true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
