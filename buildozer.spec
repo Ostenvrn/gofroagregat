@@ -8,7 +8,7 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 
 version = 1.0.0
 
-requirements = python3,kivy==2.3.1,cython>=3.0.11,legacy-cgi,pyjnius
+requirements = python3,kivy==2.3.1,cython>=3.0.11,legacy-cgi,pyjnius,android
 
 orientation = portrait
 fullscreen = 1
