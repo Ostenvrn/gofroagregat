@@ -20,6 +20,8 @@ jobs:
 
       - name: Build APK
         run: |
+          pip uninstall -y cython || true
+          pip install cython==3.0.11
           yes | buildozer android debug
 
       - name: Upload APK
