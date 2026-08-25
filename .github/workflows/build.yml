@@ -26,6 +26,16 @@ jobs:
           python3.9 -m pip install --upgrade pip
           python3.9 -m pip install buildozer cython legacy-cgi
 
+      - name: Setup Android SDK
+        run: |
+          mkdir -p /root/.buildozer/android/platform/android-sdk
+          cd /root/.buildozer/android/platform/android-sdk
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          unzip -q commandlinetools-linux-11076708_latest.zip
+          mv cmdline-tools latest
+          yes | /root/.buildozer/android/platform/android-sdk/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
+          /root/.buildozer/android/platform/android-sdk/latest/bin/sdkmanager "platform-tools" "build-tools;37.0.0" "platforms;android-33"
+
       - name: Build APK
         run: |
           export ANDROIDSDK=/root/.buildozer/android/platform/android-sdk
