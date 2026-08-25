@@ -1,4 +1,4 @@
-name: Build APK
+name: Build
 
 on:
   push:
@@ -6,50 +6,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-22.04
-    container:
-      image: ubuntu:20.04
+  build-android:
+    name: Build for Android
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
-          DEBIAN_FRONTEND=noninteractive apt-get install -y git zip unzip wget openjdk-17-jdk python3-pip python3.9 python3.9-dev python3.9-venv autoconf libtool pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev automake
-          update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
-
-      - name: Install Python packages
-        run: |
-          python3.9 -m pip install --upgrade pip
-          python3.9 -m pip install buildozer cython legacy-cgi
-
-      - name: Setup Android SDK
-        run: |
-          mkdir -p /root/.buildozer/android/platform/android-sdk/cmdline-tools
-          cd /root/.buildozer/android/platform/android-sdk
-          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-          unzip -q commandlinetools-linux-11076708_latest.zip -d cmdline-tools/
-          mv cmdline-tools/cmdline-tools cmdline-tools/latest
-          yes | /root/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
-          /root/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "build-tools;37.0.0" "platforms;android-33"
-          # Копируем SDK в папку, где его ищет Buildozer
-          mkdir -p /github/home/.buildozer/android/platform
-          cp -r /root/.buildozer/android/platform/android-sdk /github/home/.buildozer/android/platform/
-
-      - name: Build APK
-        run: |
-          export ANDROIDSDK=/root/.buildozer/android/platform/android-sdk
-          export ANDROIDNDK=/root/.buildozer/android/platform/android-ndk-r25c
-          export ANDROIDAPI=33
-          export ANDROIDMINAPI=24
-          export PATH=$PATH:/root/.buildozer/android/platform/apache-ant-1.9.4/bin
-          echo "y" | python3.9 -m buildozer android debug
+      - name: Build APK with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          workdir: ./
+          buildozer_version: stable
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: gofroagregat-apk
-          path: bin/*.apk
+          name: package
+          path: ${{ steps.buildozer.outputs.filename }}
