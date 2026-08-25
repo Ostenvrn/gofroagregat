@@ -21,8 +21,6 @@ android.graphics = yes
 android.maxsdk = 33
 android.add_src =
 android.ignore_requirements = android
-android.accept_sdk_license = True
-android.reduce_apk_size = True
 
 [buildozer]
 log_level = 2
