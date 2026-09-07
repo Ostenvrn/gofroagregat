@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK with Docker
 
 on:
   push:
@@ -11,52 +11,29 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      # ============================================================
-      # 1. ЗАГРУЗКА КОДА
-      # ============================================================
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ============================================================
-      # 2. КЭШИРОВАНИЕ (УСКОРЯЕТ СБОРКУ В 2-3 РАЗА)
-      # ============================================================
-      - name: Cache Buildozer
-        uses: actions/cache@v4
-        with:
-          path: ~/.buildozer
-          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            ${{ runner.os }}-buildozer-
-
-      # ============================================================
-      # 3. СБОРКА DOCKER-ОБРАЗА
-      # ============================================================
       - name: Build Docker image
         run: |
           docker build -t gofro-builder .
 
-      # ============================================================
-      # 4. СБОРКА APK
-      # ============================================================
       - name: Build APK
         run: |
           docker run \
             --rm \
             -v $(pwd):/home/user/build \
             -v ~/.buildozer:/home/user/.buildozer \
-            --user user \
+            --user root \
             gofro-builder \
             bash -c "
+              # Создаём папку с правильными правами от root
+              mkdir -p /home/user/.buildozer
+              chmod -R 777 /home/user/.buildozer
               cd /home/user/build
-              echo '=== Python version ==='
-              python3 --version
-              echo '=== Starting build ==='
               yes | buildozer android debug
             "
 
-      # ============================================================
-      # 5. ЗАГРУЗКА APK
-      # ============================================================
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
