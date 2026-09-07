@@ -43,8 +43,8 @@ jobs:
 
       - name: Build APK
         run: |
-          # ВАЖНО: ставим старую версию python-for-android, которая НЕ требует AAB
-          pip install python-for-android==2023.9.1
+          # Устанавливаем последнюю версию python-for-android
+          pip install --upgrade python-for-android
           yes | buildozer android debug
 
       - name: Upload APK
