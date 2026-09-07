@@ -13,5 +13,3 @@ RUN cd /home/user/.buildozer/android/platform/python-for-android && \
 
 # Рабочая директория
 WORKDIR /home/user/hostcwd
-
-CMD ["buildozer", "android", "debug"]
