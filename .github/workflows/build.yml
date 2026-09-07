@@ -20,7 +20,7 @@ jobs:
             --rm \
             -v $(pwd):/home/user/hostcwd \
             kivy/buildozer:latest \
-            bash -c "
+            /bin/sh -c "
               cd /home/user/hostcwd
               echo '=== Python version ==='
               python3 --version
