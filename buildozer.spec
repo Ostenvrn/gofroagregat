@@ -10,8 +10,8 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 source.exclude_exts = pyc,pyo,so,o,obj,class,dbg,pycache
 
-# ===== ВОЗВРАЩАЕМ KIVY 2.3.1 (РАБОТАЛ!) =====
-requirements = python3,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
+# ===== БЕЗ ВЕРСИИ PYTHON =====
+requirements = python3,kivy==2.1.0,jnius==1.4.0,cython==3.0.11
 
 orientation = portrait
 fullscreen = 1
@@ -22,12 +22,13 @@ android.permissions = INTERNET, VIBRATE, WAKE_LOCK
 android.api = 33
 android.sdk = 33
 android.minapi = 24
-# ===== ВОЗВРАЩАЕМ NDK 25b (РАБОТАЛ!) =====
+# ===== NDK 25b (НЕ 23b!) =====
 android.ndk = 25b
 android.maxsdk = 33
 android.target_sdk = 33
 android.accept_sdk_license = yes
 
+# ===== ВЕТКА DEVELOP ДЛЯ ПОДДЕРЖКИ AAB =====
 p4a.branch = develop
 android.export_aab = True
 
