@@ -1,0 +1,13 @@
+--- a/pythonforandroid/recipes/libthorvg/__init__.py
++++ b/pythonforandroid/recipes/libthorvg/__init__.py
+@@ -95,7 +95,10 @@
+     def build_arch(self, arch):
+         super().build_arch(arch)
+         clang_pattern = f"{self.ctx.ndk}/toolchains/llvm/prebuilt/*/lib/clang/*/lib/linux/*clang_rt.builtins*.a"
+-        clang_lib_dir = glob(clang_pattern)[0]
++        clang_lib_files = glob(clang_pattern)
++        if not clang_lib_files:
++            return
++        clang_lib_dir = clang_lib_files[0]
+         clang_lib_dir = clang_lib_dir[:clang_lib_dir.rfind('/')]
+         self.install_lib(clang_lib_dir)
