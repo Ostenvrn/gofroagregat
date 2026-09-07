@@ -1,4 +1,4 @@
-name: Build APK with Docker (Python 3.11)
+name: Build APK
 
 on:
   push:
@@ -14,21 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: |
-          docker build -t gofro-builder .
-
-      - name: Build APK
+      - name: Build APK with Docker
         run: |
           docker run \
             --rm \
-            -v $(pwd):/home/user/build \
-            -v ~/.buildozer:/home/user/.buildozer \
-            gofro-builder \
+            -v $(pwd):/home/user/hostcwd \
+            kivy/buildozer:latest \
             bash -c "
-              export PATH=/home/user/venv/bin:\$PATH
-              python --version
-              cd /home/user/build
+              cd /home/user/hostcwd
+              echo '=== Python version ==='
+              python3 --version
+              echo '=== Starting build ==='
               yes | buildozer android debug
             "
 
