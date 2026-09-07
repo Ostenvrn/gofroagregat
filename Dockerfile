@@ -86,6 +86,8 @@ RUN eval "$(pyenv init --path)" && python --version
 # ============================================================
 # ШАГ 8: Создаём папку для кэша Buildozer
 # ============================================================
+RUN mkdir -p /home/user/.buildozer/cache && \
+    chown -R user:user /home/user/.buildozer
 RUN mkdir -p /home/user/.buildozer
 
 # ============================================================
