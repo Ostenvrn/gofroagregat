@@ -10,7 +10,8 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 source.exclude_exts = pyc,pyo,so,o,obj,class,dbg,pycache
 
-requirements = python3==3.9.19,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
+# ===== ВАЖНО: НЕ УКАЗЫВАЕМ ВЕРСИЮ PYTHON =====
+requirements = python3,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
 
 orientation = portrait
 fullscreen = 1
@@ -26,8 +27,7 @@ android.maxsdk = 33
 android.target_sdk = 33
 android.accept_sdk_license = yes
 
-# ===== ВАЖНО: указываем конкретную версию с поддержкой AAB =====
-p4a.version = 2024.1.21
+p4a.branch = develop
 android.export_aab = True
 
 [buildozer]
