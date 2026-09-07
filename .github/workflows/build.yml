@@ -1,4 +1,4 @@
-name: Build APK with Docker
+name: Build APK with Custom Docker
 
 on:
   push:
@@ -22,37 +22,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildozer-
 
-      - name: Show files for debug
+      - name: Build Docker image
         run: |
-          ls -la
-          cat buildozer.spec | head -20
+          docker build -t gofro-builder .
 
-      - name: Build APK with Docker
+      - name: Build APK
         run: |
-          # Проверяем, что файл buildozer.spec существует
-          if [ ! -f "buildozer.spec" ]; then
-            echo "❌ buildozer.spec not found!"
-            exit 1
-          fi
-          
-          # Сборка через Docker (используем правильный тег)
           docker run \
             --rm \
-            -v $(pwd):/home/user/hostcwd \
+            -v $(pwd):/home/user/build \
             -v ~/.buildozer:/home/user/.buildozer \
-            -e USER=runner \
-            kivy/buildozer:latest \
-            android debug
-
-      - name: Check if APK was created
-        run: |
-          if [ -d "bin" ]; then
-            echo "✅ APK found!"
-            ls -la bin/
-          else
-            echo "❌ No bin folder found!"
-            exit 1
-          fi
+            -e USER=user \
+            gofro-builder \
+            bash -c "eval \"\$(pyenv init --path)\" && yes | buildozer android debug"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
