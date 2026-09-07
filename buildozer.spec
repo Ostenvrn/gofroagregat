@@ -54,7 +54,7 @@ android.accept_sdk_license = yes
 # ============================================================
 # ПАРАМЕТРЫ СБОРКИ (Python-for-Android)
 # ============================================================
-p4a.branch = stable
+p4a.branch = master
 p4a.local_recipes = 
 android.gradle_dependencies = 
 android.add_src = 
