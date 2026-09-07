@@ -29,6 +29,11 @@ jobs:
             bash -c "
               export PATH=/home/user/.local/bin:\$PATH
               cd /home/user/build
+              # Проверяем версию python-for-android
+              python3 -m pip show python-for-android
+              # Принудительно обновляем python-for-android до версии с AAB
+              python3 -m pip install --upgrade python-for-android==2024.1.21
+              # Собираем APK
               yes | buildozer android debug
             "
 
