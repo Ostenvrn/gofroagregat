@@ -10,7 +10,6 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 source.exclude_exts = pyc,pyo,so,o,obj,class,dbg,pycache
 
-# ===== БЕЗ ВЕРСИИ PYTHON! =====
 requirements = python3,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
 
 orientation = portrait
@@ -22,7 +21,8 @@ android.permissions = INTERNET, VIBRATE, WAKE_LOCK
 android.api = 33
 android.sdk = 33
 android.minapi = 24
-android.ndk = 25b
+# ===== МЕНЯЕМ NDK НА СТАБИЛЬНУЮ ВЕРСИЮ =====
+android.ndk = 23b
 android.maxsdk = 33
 android.target_sdk = 33
 android.accept_sdk_license = yes
