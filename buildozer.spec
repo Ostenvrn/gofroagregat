@@ -10,8 +10,8 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 source.exclude_exts = pyc,pyo,so,o,obj,class,dbg,pycache
 
-# ===== ВАЖНО: используем Python 3.11.16 =====
-requirements = python3==3.11.16,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
+# ===== ИСПОЛЬЗУЕМ PYTHON 3.9 (РАБОТАЕТ!) =====
+requirements = python3==3.9.19,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
 
 orientation = portrait
 fullscreen = 1
