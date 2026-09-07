@@ -1,4 +1,4 @@
-name: Build APK with Docker
+name: Build APK
 
 on:
   push:
@@ -14,25 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: |
-          docker build -t gofro-builder .
-
       - name: Build APK
         run: |
-          docker run \
-            --rm \
-            -v $(pwd):/home/user/build \
-            -v ~/.buildozer:/home/user/.buildozer \
-            --user root \
-            gofro-builder \
-            bash -c "
-              # Создаём папку с правильными правами от root
-              mkdir -p /home/user/.buildozer
-              chmod -R 777 /home/user/.buildozer
-              cd /home/user/build
-              yes | buildozer android debug
-            "
+          docker run --rm \
+            -v $(pwd):/home/user/hostcwd \
+            kivy/buildozer:latest \
+            android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
