@@ -17,9 +17,9 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 source.exclude_exts = pyc,pyo,so,o,obj,class,dbg,pycache
 
 # ============================================================
-# ЗАВИСИМОСТИ (указаны точные версии для стабильности)
+# ЗАВИСИМОСТИ (Python 3.11.16 — совместим с GitHub Actions)
 # ============================================================
-requirements = python3==3.11.7,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
+requirements = python3==3.11.16,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
 
 # ============================================================
 # НАСТРОЙКИ ЭКРАНА
@@ -54,8 +54,7 @@ android.accept_sdk_license = yes
 # ============================================================
 # ПАРАМЕТРЫ СБОРКИ (Python-for-Android)
 # ============================================================
-p4a.branch = master
-android.export_aab = False
+p4a.branch = develop
 p4a.local_recipes = 
 android.gradle_dependencies = 
 android.add_src = 
@@ -64,6 +63,7 @@ android.extra_java_dirs =
 android.extra_jar_dirs = 
 android.extra_javac_options = 
 android.use_gradle = yes
+android.export_aab = True
 
 # ============================================================
 # ОПЦИОНАЛЬНО: ИСКЛЮЧЕНИЕ ФАЙЛОВ ИЗ APK
@@ -71,13 +71,6 @@ android.use_gradle = yes
 android.exclude_activities = 
 android.ignore_activity_not_found = yes
 android.blacklist_activities = 
-
-# ============================================================
-# ПАРАМЕТРЫ РАЗВЕРТКИ (для приложений с камерой/видео)
-# ============================================================
-# camera = 0
-# videoplayer = 0
-# android.min_camera_api = 
 
 # ============================================================
 # ПРИМЕР: ДОБАВЛЕНИЕ СВОИХ ФАЙЛОВ В APK
