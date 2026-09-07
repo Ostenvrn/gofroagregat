@@ -24,7 +24,8 @@ jobs:
             -v $(pwd):/home/user/hostcwd \
             -v ~/.buildozer:/home/user/.buildozer \
             --user root \
-            gofro-builder
+            gofro-builder \
+            android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
