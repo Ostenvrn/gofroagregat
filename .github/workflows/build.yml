@@ -19,7 +19,15 @@ jobs:
           docker run --rm \
             -v $(pwd):/home/user/hostcwd \
             kivy/buildozer:latest \
-            android debug
+            sh -c "
+              cd /home/user/hostcwd
+              # Применяем патч для libthorvg
+              cp fix_libthorvg.patch /tmp/
+              cd /home/user/.buildozer/android/platform/python-for-android
+              patch -p1 < /tmp/fix_libthorvg.patch 2>/dev/null || true
+              cd /home/user/hostcwd
+              yes | buildozer android debug
+            "
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
