@@ -10,7 +10,8 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 source.exclude_exts = pyc,pyo,so,o,obj,class,dbg,pycache
 
-requirements = python3,kivy==2.3.1,jnius==1.4.0,cython==3.0.11
+# ===== Kivy 2.2.0 НЕ ТРЕБУЕТ libthorvg =====
+requirements = python3,kivy==2.2.0,jnius==1.4.0,cython==3.0.11
 
 orientation = portrait
 fullscreen = 1
