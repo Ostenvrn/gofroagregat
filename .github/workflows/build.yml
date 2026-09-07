@@ -35,13 +35,13 @@ jobs:
             exit 1
           fi
           
-          # Сборка через Docker
+          # Сборка через Docker (используем правильный тег)
           docker run \
             --rm \
             -v $(pwd):/home/user/hostcwd \
             -v ~/.buildozer:/home/user/.buildozer \
             -e USER=runner \
-            kivy/buildozer:1.4.0 \
+            kivy/buildozer:latest \
             android debug
 
       - name: Check if APK was created
