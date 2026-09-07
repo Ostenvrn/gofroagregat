@@ -1,4 +1,4 @@
-name: Build APK with Docker
+name: Build APK with Docker (Python 3.11)
 
 on:
   push:
@@ -22,14 +22,13 @@ jobs:
         run: |
           docker run \
             --rm \
-            -v $(pwd):/build \
-            --user root \
+            -v $(pwd):/home/user/build \
+            -v ~/.buildozer:/home/user/.buildozer \
             gofro-builder \
             bash -c "
-              # Проверяем, что buildozer установлен
-              which buildozer
-              buildozer --version
-              # Собираем APK
+              export PATH=/home/user/venv/bin:\$PATH
+              python --version
+              cd /home/user/build
               yes | buildozer android debug
             "
 
