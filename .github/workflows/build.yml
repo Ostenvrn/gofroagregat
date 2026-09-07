@@ -18,6 +18,7 @@ jobs:
         run: |
           docker run --rm \
             -v $(pwd):/home/user/hostcwd \
+            -e P4A_IGNORE_RECIPES=libthorvg \
             kivy/buildozer:latest \
             android debug
 
