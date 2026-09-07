@@ -1,4 +1,4 @@
-name: Build APK with Custom Docker
+name: Build APK with Docker
 
 on:
   push:
@@ -27,13 +27,8 @@ jobs:
             --user root \
             gofro-builder \
             bash -c "
-              export PATH=/home/user/.local/bin:\$PATH
               cd /home/user/build
-              # Проверяем версию python-for-android
-              python3 -m pip show python-for-android
-              # Принудительно обновляем python-for-android до версии с AAB
-              python3 -m pip install --upgrade python-for-android==2024.1.21
-              # Собираем APK
+              python3 --version
               yes | buildozer android debug
             "
 
