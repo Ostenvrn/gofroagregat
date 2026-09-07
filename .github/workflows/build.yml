@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    timeout-minutes: 45  # Защита от зависаний
+    timeout-minutes: 45
 
     steps:
       - name: Checkout code
@@ -19,9 +19,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      # ============================================================
-      # КЭШИРОВАНИЕ (ускоряет сборку при повторных запусках)
-      # ============================================================
       - name: Cache Buildozer
         uses: actions/cache@v4
         with:
@@ -30,65 +27,29 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildozer-
 
-      # ============================================================
-      # УСТАНОВКА СИСТЕМНЫХ ЗАВИСИМОСТЕЙ
-      # ============================================================
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            git \
-            zip \
-            unzip \
-            openjdk-17-jdk \
-            python3-pip \
-            autoconf \
-            libtool \
-            pkg-config \
-            zlib1g-dev \
-            libncurses-dev \
-            cmake \
-            libffi-dev \
-            libssl-dev \
-            automake \
-            libsdl2-dev \
-            libsdl2-ttf-dev \
-            libsdl2-mixer-dev \
-            libsdl2-image-dev
+            git zip unzip openjdk-17-jdk python3-pip \
+            autoconf libtool pkg-config zlib1g-dev libncurses-dev \
+            cmake libffi-dev libssl-dev automake \
+            libsdl2-dev libsdl2-ttf-dev libsdl2-mixer-dev libsdl2-image-dev
 
-      # ============================================================
-      # УСТАНОВКА PYTHON ПАКЕТОВ
-      # ============================================================
       - name: Install Python packages
         run: |
           pip install --upgrade pip
           pip install buildozer cython
 
-      # ============================================================
-      # СБОРКА APK
-      # ============================================================
       - name: Build APK
         run: |
-          # Автоматический ответ "yes" на все вопросы Buildozer
+          # ВАЖНО: ставим старую версию python-for-android, которая НЕ требует AAB
+          pip install python-for-android==2023.9.1
           yes | buildozer android debug
 
-      # ============================================================
-      # ЗАГРУЗКА ГОТОВОГО APK КАК АРТЕФАКТА
-      # ============================================================
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: gofroagregat-apk
           path: bin/*.apk
-          if-no-files-found: error  # Если APK не создан — сборка будет помечена как неудачная
-
-      # ============================================================
-      # ОПЦИОНАЛЬНО: ОТПРАВКА APK В TELEGRAM (если нужно)
-      # ============================================================
-      # - name: Send APK to Telegram
-      #   uses: appleboy/telegram-action@master
-      #   with:
-      #     to: ${{ secrets.TELEGRAM_TO }}
-      #     token: ${{ secrets.TELEGRAM_TOKEN }}
-      #     document: bin/*.apk
-      #     message: "✅ APK собран!"
+          if-no-files-found: error
