@@ -26,7 +26,8 @@ android.maxsdk = 33
 android.target_sdk = 33
 android.accept_sdk_license = yes
 
-p4a.branch = develop
+# ===== ВАЖНО: указываем конкретную версию с поддержкой AAB =====
+p4a.version = 2024.1.21
 android.export_aab = True
 
 [buildozer]
