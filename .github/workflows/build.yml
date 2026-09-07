@@ -1,4 +1,4 @@
-name: Build APK with Custom Docker
+name: Build APK
 
 on:
   push:
@@ -14,14 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cache Buildozer
-        uses: actions/cache@v4
-        with:
-          path: ~/.buildozer
-          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            ${{ runner.os }}-buildozer-
-
       - name: Build Docker image
         run: |
           docker build -t gofro-builder .
@@ -31,10 +23,16 @@ jobs:
           docker run \
             --rm \
             -v $(pwd):/home/user/build \
-            -v ~/.buildozer:/home/user/.buildozer \
-            -e USER=user \
+            --user root \
             gofro-builder \
-            bash -c "eval \"\$(pyenv init --path)\" && yes | buildozer android debug"
+            bash -c "
+              # Создаём папку для кэша с правильными правами
+              mkdir -p /home/user/.buildozer/cache
+              chmod -R 777 /home/user/.buildozer
+              # Собираем APK
+              cd /home/user/build
+              yes | buildozer android debug
+            "
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
