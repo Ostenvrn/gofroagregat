@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK with Docker
 
 on:
   push:
@@ -22,15 +22,14 @@ jobs:
         run: |
           docker run \
             --rm \
-            -v $(pwd):/home/user/build \
+            -v $(pwd):/build \
             --user root \
             gofro-builder \
             bash -c "
-              # Создаём папку для кэша с правильными правами
-              mkdir -p /home/user/.buildozer/cache
-              chmod -R 777 /home/user/.buildozer
+              # Проверяем, что buildozer установлен
+              which buildozer
+              buildozer --version
               # Собираем APK
-              cd /home/user/build
               yes | buildozer android debug
             "
 
