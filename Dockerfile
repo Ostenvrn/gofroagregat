@@ -27,9 +27,10 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 
 # Проверяем версию
 RUN python3 --version
 
-# Устанавливаем Buildozer
+# Устанавливаем Buildozer и конкретную версию python-for-android
 RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install buildozer cython
+    python3 -m pip install buildozer cython && \
+    python3 -m pip install --upgrade python-for-android==2024.1.21
 
 # Создаём пользователя
 RUN useradd -m -s /bin/bash user && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
