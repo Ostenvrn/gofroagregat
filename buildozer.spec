@@ -10,8 +10,8 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,txt,json,md
 source.exclude_exts = pyc,pyo,so,o,obj,class,dbg,pycache
 
-# ===== CYTHON ВОЗВРАЩАЕМ БЕЗ ВЕРСИИ (образ сам подберёт) =====
-requirements = python3,kivy==2.1.0,jnius,pyjnius
+# ===== Requirements =====
+requirements = python3,kivy==2.3.0,jnius,pyjnius
 
 orientation = portrait
 fullscreen = 1
@@ -27,8 +27,11 @@ android.maxsdk = 33
 android.target_sdk = 33
 android.accept_sdk_license = yes
 
-p4a.branch = master
-android.export_aab = True
+# ===== Фиксируем p4a на стабильный релиз =====
+p4a.branch = v2024.01.21
+
+# ===== Debug-сборка делает APK, AAB отключён =====
+# android.export_aab = True
 
 [buildozer]
 log_level = 2
