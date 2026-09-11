@@ -19,7 +19,7 @@ jobs:
           docker run --rm \
             -v $(pwd):/home/user/hostcwd \
             -e P4A_IGNORE_RECIPES=libthorvg \
-            kivy/buildozer:latest \
+            kivy/buildozer:2024 \
             android debug
 
       - name: Upload APK
