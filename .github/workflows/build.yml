@@ -14,6 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -41,7 +47,14 @@ jobs:
           restore-keys: |
             buildozer-${{ runner.os }}-
 
+      - name: Verify Java version
+        run: |
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
+
       - name: Build APK
+        env:
+          P4A_IGNORE_RECIPES: libthorvg
         run: buildozer android debug
 
       - name: Upload APK
